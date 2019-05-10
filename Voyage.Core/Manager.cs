@@ -6,26 +6,29 @@ namespace Voyage.Core
     public class Manager
     {
         System.Timers.Timer _timer;
-        public Container Container { get; set; }
-        public Config Config { get; set; }
+        private Container _container;
+        public Operator Operator { get; set; }
 
-        public Manager(Config config)
+        public Manager()
         {
-            this.Config = config;
-            this._timer = new System.Timers.Timer(config.Interval);
+            this._timer = new System.Timers.Timer(Config.Interval);
             this._timer.Elapsed += _timer_Elapsed;
 
-            Character ch = new Character(this.Config.Name, this.Config.IntervalCharacter, this.Config.Initial);
-            List<Area> areas = Helper.GenerateRandomArea(this.Config.AreaCount, this.Config.AreaMaxLevel);
-            foreach(Area item in areas)
-                item.Plants = Helper.GenerateRandomPlants(Helper.Rand.Next(0, (item.Level > 4 ? 4 : item.Level)), this.Config.PlantInterval);
+            Helper.Full = Config.Full;
 
-            this.Container = new Container(ch, areas);
+            List<Area> areas = Helper.GenerateRandomArea(Config.AreaCount, Config.AreaMaxLevel);
+            foreach(Area item in areas)
+                item.Plants = Helper.GenerateRandomPlants(Helper.Rand.Next(0, (item.Level > 4 ? 4 : item.Level)));
+
+            Character character = new Character(Config.Name, Config.IntervalCharacter, Config.Initial);
+            this._container = new Container(character, areas);
+
+            this.Operator = new Operator(this._container);
         }
 
         private void _timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-            this.Container.Cycle();
+            this._container.Cycle();
         }
 
         public void Start()

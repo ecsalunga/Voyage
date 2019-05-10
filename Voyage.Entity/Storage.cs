@@ -17,34 +17,26 @@ namespace Voyage.Entity
             this.Foods = new List<StorageItem>();
         }
 
-        public void Harvest(Plant plant)
+        public StorageItem GetSeedStorage(Plant plant)
         {
-            if(plant.PlantType == PlantType.Food)
-                this.HarvestFood(plant);
-            else if (plant.PlantType == PlantType.Wood)
-            {
-                this.Wood += plant.Wood;
-                plant.Wood = 0;
-            }
-            else
-            {
-                this.HarvestFood(plant);
-                this.Wood += plant.Wood;
-                plant.Wood = 0;
-            }
+            return GetStorageItem(plant, this.Seeds);
         }
 
-        private void HarvestFood(Plant plant)
+        public StorageItem GetFoodStorage(Plant plant)
         {
-            StorageItem item = this.Foods.FirstOrDefault(p => p.Name == plant.Name);
+            return GetStorageItem(plant, this.Foods);
+        }
+
+        private StorageItem GetStorageItem(Plant plant, List<StorageItem> items)
+        {
+            StorageItem item = items.FirstOrDefault(p => p.Name == plant.PlantType.Name);
             if (item == null)
             {
-                item = new StorageItem() { Name = plant.Name };
-                this.Foods.Add(item);
+                item = new StorageItem() { Name = plant.PlantType.Name };
+                items.Add(item);
             }
 
-            item.Count += plant.Food;
-            plant.Food = 0;
+            return item;
         }
     }
 

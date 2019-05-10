@@ -31,14 +31,14 @@ namespace Voyage.Entity
 
             if (this.Current < 1)
             {
+                this.Current = this.Interval;
+
                 if (this.Food > 0)
                     this.Food--;
 
                 int add = (this.Food > 0) ? 1 : -1;
-                this.Health = Helper.AddWithLimit(this.Health, add, 100);
-                this.Energy = Helper.AddWithLimit(this.Energy, add, 100);
-
-                this.Current = this.Interval;
+                this.Health = Helper.AddWithLimit(this.Health, add, Helper.Full);
+                this.Energy = Helper.AddWithLimit(this.Energy, add, Helper.Full);
 
                 Console.WriteLine("Character Health: {0}, Energy: {1}. Food: {2}", this.Health, this.Energy, this.Food);
             }

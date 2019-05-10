@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.572
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28729.10
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Voyage.Core", "Voyage.Core\Voyage.Core.csproj", "{9CAF323A-1DBD-4716-9CA9-78AF3D1834AF}"
 EndProject
@@ -9,7 +9,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Voyage.Runner", "Voyage.Run
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Voyage.Entity", "Voyage.Entity\Voyage.Entity.csproj", "{F362B89B-BCE6-4083-8781-AC7BA3BD8C6D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Voyage.Test", "Voyage.Test\Voyage.Test.csproj", "{0832EDC0-29CF-4F2E-BCF3-1BC380F58D07}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Voyage.Test", "Voyage.Test\Voyage.Test.csproj", "{0832EDC0-29CF-4F2E-BCF3-1BC380F58D07}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{941CD717-4C3A-461A-8982-53CDBE60D037}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

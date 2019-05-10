@@ -8,9 +8,9 @@ namespace Voyage.Runner
     {
         static void Main(string[] args)
         {
-            Config config = new Config();
             Console.WriteLine("Hello World!");
-            Manager m = new Manager(config);
+
+            Manager m = new Manager();
             m.Start();
 
             Console.Read();

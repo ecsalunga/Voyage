@@ -7,7 +7,7 @@ namespace Voyage.Core
 {
     public class Operator
     {
-        public Container Container { get; set; }
+        private Container Container { get; set; }
 
         public Operator(Container container)
         {
@@ -16,11 +16,50 @@ namespace Voyage.Core
 
         public void TryGetSeed(Plant plant)
         {
-            if (Helper.Rand.Next(1, 21) == 7)
+            if (Helper.Rand.Next(1, Config.SeedChance + 1) == 7)
             {
-                StorageItem item = this.Container.Storage.GetSeedStorage(plant);
+                Item item = this.Container.Storage.GetSeedStorage(plant.PlantType.Name);
                 item.Count++;
             }
+        }
+
+        public void SellItem(int amount, Item item)
+        {
+            item.Count -= amount;
+            this.Container.Storage.Gold += (amount * Helper.ItemPrices[item.Name].Sell);
+        }
+
+        public void SellFood(int amount, Item item)
+        {
+            item.Count -= amount;
+            this.Container.Storage.Gold += (amount * Helper.FoodPrices[item.Name].Sell);
+        }
+
+        public void SellSeed(int amount, Item item)
+        {
+            item.Count -= amount;
+            this.Container.Storage.Gold += (amount * Helper.SeedPrices[item.Name].Sell);
+        }
+
+        public void BuyItem(int amount, string name)
+        {
+            Item item = this.Container.Storage.GetItemStorage(name);
+            item.Count += amount;
+            this.Container.Storage.Gold -= (amount * Helper.ItemPrices[name].Buy);
+        }
+
+        public void BuyFood(int amount, string name)
+        {
+            Item item = this.Container.Storage.GetFoodStorage(name);
+            item.Count += amount;
+            this.Container.Storage.Gold -= (amount * Helper.FoodPrices[name].Buy);
+        }
+
+        public void BuySeed(int amount, string name)
+        {
+            Item item = this.Container.Storage.GetSeedStorage(name);
+            item.Count += amount;
+            this.Container.Storage.Gold -= (amount * Helper.SeedPrices[name].Buy);
         }
 
         public void Harvest(Plant plant)
@@ -29,19 +68,20 @@ namespace Voyage.Core
 
             if (plant.Food > 0)
             {
-                StorageItem item = this.Container.Storage.GetFoodStorage(plant);
+                Item item = this.Container.Storage.GetFoodStorage(plant.PlantType.Name);
                 item.Count += plant.Food;
                 plant.Food = 0;
             }
 
             if (plant.Wood > 0)
             {
-                this.Container.Storage.Wood += plant.Wood;
+                Item item = this.Container.Storage.GetItemStorage(Config.Wood);
+                item.Count += plant.Wood;
                 plant.Wood = 0;
             }
         }
 
-        public void Eat(StorageItem item)
+        public void Eat(Item item)
         {
             if (item.Count < 0)
                 return;
@@ -81,13 +121,7 @@ namespace Voyage.Core
             }
 
             // try to fill energy
-            if (Helper.Full > character.Energy + add)
-            {
-                character.Energy += add;
-                return;
-            }
-            else
-                character.Energy = Helper.Full;
+            character.Energy = (Helper.Full > character.Energy + add) ? character.Energy + add : Helper.Full;
         }
     }
 }

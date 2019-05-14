@@ -7,42 +7,43 @@ namespace Voyage.Entity
 {
     public class Storage
     {
-        public List<StorageItem> Seeds { get; set; }
-        public List<StorageItem> Foods { get; set; }
-        public int Wood { get; set; }
+        public List<Item> Seeds { get; set; }
+        public List<Item> Foods { get; set; }
+        public List<Item> Items { get; set; }
+        public int Gold { get; set; }
 
         public Storage()
         {
-            this.Seeds = new List<StorageItem>();
-            this.Foods = new List<StorageItem>();
+            this.Seeds = new List<Item>();
+            this.Foods = new List<Item>();
+            this.Items = new List<Item>();
         }
 
-        public StorageItem GetSeedStorage(Plant plant)
+        public Item GetSeedStorage(string name)
         {
-            return GetStorageItem(plant, this.Seeds);
+            return GetStorageItem(name, this.Seeds);
         }
 
-        public StorageItem GetFoodStorage(Plant plant)
+        public Item GetFoodStorage(string name)
         {
-            return GetStorageItem(plant, this.Foods);
+            return GetStorageItem(name, this.Foods);
         }
 
-        private StorageItem GetStorageItem(Plant plant, List<StorageItem> items)
+        public Item GetItemStorage(string name)
         {
-            StorageItem item = items.FirstOrDefault(p => p.Name == plant.PlantType.Name);
+            return GetStorageItem(name, this.Items);
+        }
+
+        private Item GetStorageItem(string name, List<Item> items)
+        {
+            Item item = items.FirstOrDefault(p => p.Name == name);
             if (item == null)
             {
-                item = new StorageItem() { Name = plant.PlantType.Name };
+                item = new Item() { Name = name };
                 items.Add(item);
             }
 
             return item;
         }
-    }
-
-    public class StorageItem
-    {
-        public string Name { get; set; }
-        public int Count { get; set; }
     }
 }

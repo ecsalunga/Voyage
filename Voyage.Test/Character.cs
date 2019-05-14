@@ -1,4 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Voyage.Core;
 using Voyage.Entity;
 
 namespace Voyage.Test
@@ -9,11 +10,13 @@ namespace Voyage.Test
         [TestMethod]
         public void Cycle()
         {
-            Character character = new Character("test", 1, 100);
-            Assert.AreEqual(character.Food, 100);
+            Manager manager = new Manager();
+            Character character = manager.Container.Character;
+
+            Assert.AreEqual(character.Food, Config.Full);
 
             character.Cycle();
-            Assert.AreEqual(character.Food, 99);
+            Assert.AreEqual(character.Food, Config.Full - 1);
 
             character.Health = 50;
             character.Energy = 50;

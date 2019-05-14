@@ -14,7 +14,7 @@ namespace Voyage.Test
 
             Manager manager = new Manager();
             Operator op = manager.Operator;
-            Storage storage = op.Container.Storage;
+            Storage storage = manager.Container.Storage;
             Assert.AreEqual(storage.Seeds.Count, 0);
 
             for(int x = 0; x < 100; x++)
@@ -44,17 +44,37 @@ namespace Voyage.Test
 
             Manager manager = new Manager();
             Operator op = manager.Operator;
+            Character character = manager.Container.Character;
 
-            Assert.AreEqual(op.Container.Character.Food, Config.Initial);
+            Assert.AreEqual(character.Food, Config.Full);
 
             op.Harvest(plant);
-
-            StorageItem item = op.Container.Storage.Foods[0];
+            Item item = manager.Container.Storage.Foods[0];
             Assert.AreEqual(item.Count, 10);
 
+            character.Food = 50;
             op.Eat(item);
             Assert.AreEqual(item.Count, 9);
-            Assert.IsTrue(op.Container.Character.Food > Config.Initial);
+            Assert.AreEqual(character.Food, plant.PlantType.Food + 50);
+        }
+
+        [TestMethod]
+        public void BuySell()
+        {
+            Manager manager = new Manager();
+            Operator op = manager.Operator;
+            Storage storage = manager.Container.Storage;
+            Item item = manager.Container.Shop.Foods[0];
+
+            storage.Gold = 100;
+            op.BuyFood(1, item.Name);
+            Assert.IsTrue(storage.Gold < 100);
+            Assert.AreEqual(storage.Foods[0].Count, 1);
+
+            int gold = storage.Gold;
+            op.SellFood(1, storage.Foods[0]);
+            Assert.IsTrue(storage.Gold > gold);
+            Assert.AreEqual(storage.Foods[0].Count, 0);
         }
     }
 }

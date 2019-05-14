@@ -8,18 +8,20 @@ namespace Voyage.Entity
     {
         public Character Character { get; set; }
         public List<Area> Areas { get; set; }
-
         public Storage Storage { get; set; }
+        public Shop Shop { get; set; }
 
-        public Container(Character character, List<Area> areas)
+        public Container(List<Area> areas)
         {
-            this.Character = character;
+            this.Character = new Character(Config.Name, Config.IntervalCharacter);
             this.Areas = areas;
             this.Storage = new Storage();
+            this.Shop = new Shop();
         }
 
         public void Cycle()
         {
+            this.Shop.Cycle();
             this.Character.Cycle();
             foreach(Area item in this.Areas)
             {

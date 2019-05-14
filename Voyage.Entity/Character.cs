@@ -14,12 +14,12 @@ namespace Voyage.Entity
         public int Interval { get; set; }
         public int Current { get; set; }
 
-        public Character(string name, int interval, int initial)
+        public Character(string name, int interval)
         {
             this.Name = name;
-            this.Health = initial;
-            this.Energy = initial;
-            this.Food = initial;
+            this.Health = Config.Full;
+            this.Energy = Config.Full;
+            this.Food = Config.Full;
 
             this.Interval = interval;
             this.Current = interval;

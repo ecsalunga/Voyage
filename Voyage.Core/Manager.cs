@@ -6,7 +6,7 @@ namespace Voyage.Core
     public class Manager
     {
         System.Timers.Timer _timer;
-        private Container _container;
+        public Container Container { get; set; }
         public Operator Operator { get; set; }
 
         public Manager()
@@ -14,21 +14,17 @@ namespace Voyage.Core
             this._timer = new System.Timers.Timer(Config.Interval);
             this._timer.Elapsed += _timer_Elapsed;
 
-            Helper.Full = Config.Full;
-
-            List<Area> areas = Helper.GenerateRandomArea(Config.AreaCount, Config.AreaMaxLevel);
+            List<Area> areas = Helper.GenerateRandomArea();
             foreach(Area item in areas)
-                item.Plants = Helper.GenerateRandomPlants(Helper.Rand.Next(0, (item.Level > 4 ? 4 : item.Level)));
-
-            Character character = new Character(Config.Name, Config.IntervalCharacter, Config.Initial);
-            this._container = new Container(character, areas);
-
-            this.Operator = new Operator(this._container);
+                item.Plants = Helper.GenerateRandomPlants(item.Level);
+            
+            this.Container = new Container(areas);
+            this.Operator = new Operator(this.Container);
         }
 
         private void _timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-            this._container.Cycle();
+            this.Container.Cycle();
         }
 
         public void Start()

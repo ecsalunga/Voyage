@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -8,7 +10,14 @@ namespace Voyage.Entity
     public class Helper
     {
         public static Random Rand = new Random();
-        public static int Full;
+        public static string Path { get; set; } = AppContext.BaseDirectory;
+        public static int Full = Config.Full;
+
+        public static string ToDuration(int seconds)
+        {
+            TimeSpan time = TimeSpan.FromSeconds(seconds);
+            return time.ToString(@"hh\:mm\:ss");
+        }
 
         public static int AddWithLimit(int current, int add, int limit)
         {
@@ -16,29 +25,29 @@ namespace Voyage.Entity
             return current > 0 ? current : 0;
         }
 
-        public static List<Area> GenerateRandomArea(int count, int maxLevel)
+        public static List<Area> GenerateRandomArea()
         {
             List<Area> items = new List<Area>();
 
-            for (int x = 0; x < count; x++)
+            for (int x = 0; x < Config.AreaCount; x++)
             {
                 Area item = new Area();
                 item.Name = "Area " + x;
-                item.Level = Rand.Next(1, maxLevel + 1);
+                item.Level = Rand.Next(1, Config.AreaMaxLevel + 1);
                 items.Add(item);
             }
 
             return items;
         }
 
-        public static List<Plant> GenerateRandomPlants(int count)
+        public static List<Plant> GenerateRandomPlants(int limit)
         {
-            int level = Rand.Next(2, 4);
-            List<Plant> items = new List<Plant>();
+            int count = Rand.Next(0, (limit > Config.InitialPlantMaxLevel ? Config.InitialPlantMaxLevel : limit));
+            List <Plant> items = new List<Plant>();
             for (int x = 0; x < count; x++)
             {
                 Plant item = new Plant(GetRandomPlantType());
-
+                int level = Rand.Next(1, count + 1);
                 item.Update(level);
                 if(item.PlantType.Food > 0)
                     item.Food = Rand.Next(0, ((item.Level * 100) / 4) + 1);
@@ -68,25 +77,72 @@ namespace Voyage.Entity
             get
             {
                 if (_plantTypes == null)
-                {
-                    _plantTypes = new List<PlantType>()
-                    {
-                        new PlantType() { Name = "Narra", Wood = 5, Interval = 28},
-                        new PlantType() { Name = "Acacia", Wood = 4, Interval = 25},
-                        new PlantType() { Name = "Mahogany", Wood = 3, Interval = 18},
-                        new PlantType() { Name = "Banana", Food = 5, Interval = 14},
-                        new PlantType() { Name = "Pineapple", Food = 4, Interval = 12},
-                        new PlantType() { Name = "Grapes", Food = 3, Interval = 10},
-                        new PlantType() { Name = "Strawberry", Food = 2, Interval = 8},
-                        new PlantType() { Name = "Apple", Food = 3, Wood = 4, Interval = 42},
-                        new PlantType() { Name = "Mango", Food = 3, Wood = 5, Interval = 35},
-                        new PlantType() { Name = "Guava", Food = 1, Wood = 2, Interval = 32},
-                        new PlantType() { Name = "Coconut", Food = 3, Wood = 3, Interval = 38},
-                    };
-                }
+                    LoadData();
 
                 return _plantTypes;
             }
+        }
+
+        private static Dictionary<string, Price> _seedPrices;
+        public static Dictionary<string, Price> SeedPrices
+        {
+            get
+            {
+                if (_seedPrices == null)
+                    LoadData();
+
+                return _seedPrices;
+            }
+        }
+
+        private static Dictionary<string, Price> _foodPrices;
+        public static Dictionary<string, Price> FoodPrices
+        {
+            get
+            {
+                if (_foodPrices == null)
+                    LoadData();
+
+                return _foodPrices;
+            }
+        }
+
+        private static Dictionary<string, Price> _itemPrices;
+        public static Dictionary<string, Price> ItemPrices
+        {
+            get
+            {
+                if (_itemPrices == null)
+                    LoadData();
+
+                return _itemPrices;
+            }
+        }
+
+        public static void LoadData()
+        {
+            string json = File.ReadAllText(Path + "\\Data\\plant.json");
+            List<Data> data = JsonConvert.DeserializeObject<List<Data>>(json);
+
+            _plantTypes = new List<PlantType>();
+            var seedPrices = new List<Price>();
+            var foodPrices = new List<Price>();
+            var itemPrices = new List<Price>();
+
+            foreach (Data item in data)
+            {
+                _plantTypes.Add(new PlantType() { Name = item.Name, Food = item.Food, Wood = item.Wood, Interval = item.Interval });
+                seedPrices.Add(new Price() { Name = item.Name, Buy = item.SeedPrice + Rand.Next(1, (item.SeedPrice * Config.PriceSpread/100) + Config.PriceMargin), Sell = item.SeedPrice });
+
+                if(item.Food > 0)
+                    foodPrices.Add(new Price() { Name = item.Name, Buy = item.Price + Rand.Next(1, (item.Price * Config.PriceSpread / 100) + Config.PriceMargin), Sell = item.Price });
+            }
+
+            _seedPrices = seedPrices.ToDictionary(k => k.Name, i => i);
+            _foodPrices = foodPrices.ToDictionary(k => k.Name, i => i);
+
+            itemPrices.Add(new Price() { Name = Config.Wood, Buy = Config.WoodPrice + Rand.Next(1, (Config.WoodPrice * Config.PriceSpread / 100) + Config.PriceMargin), Sell = Config.WoodPrice});
+            _itemPrices = itemPrices.ToDictionary(k => k.Name, i => i);
         }
 
         #endregion Constants

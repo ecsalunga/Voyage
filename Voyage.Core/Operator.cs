@@ -73,11 +73,11 @@ namespace Voyage.Core
                 plant.Food = 0;
             }
 
-            if (plant.Wood > 0)
+            if (plant.Material > 0)
             {
-                Item item = this.Container.Storage.GetItemStorage(Config.Wood);
-                item.Count += plant.Wood;
-                plant.Wood = 0;
+                Item item = this.Container.Storage.GetItemStorage(Config.Material);
+                item.Count += plant.Material;
+                plant.Material = 0;
             }
         }
 

@@ -11,8 +11,8 @@ namespace Voyage.Entity
         public const int SeedChance = 25;
         public const int AreaCount = 3;
         public const int AreaMaxLevel = 8;
-        public const int WoodPrice = 15;
-        public const string Wood = "Wood";
+        public const int MaterialPrice = 15;
+        public const string Material = "Material";
 
         public const int WoodSellCount = 30;
         public const int FoodSellCount = 7;

@@ -51,8 +51,8 @@ namespace Voyage.Entity
                 item.Update(level);
                 if(item.PlantType.Food > 0)
                     item.Food = Rand.Next(0, ((item.Level * 100) / 4) + 1);
-                if (item.PlantType.Wood > 0)
-                    item.Wood = Rand.Next(0, ((item.Level * item.PlantType.Wood * 100) / 4) + 1);
+                if (item.PlantType.Material > 0)
+                    item.Material = Rand.Next(0, ((item.Level * item.PlantType.Material * 100) / 4) + 1);
 
                 items.Add(item);
             }
@@ -131,7 +131,7 @@ namespace Voyage.Entity
 
             foreach (Data item in data)
             {
-                _plantTypes.Add(new PlantType() { Name = item.Name, Food = item.Food, Wood = item.Wood, Interval = item.Interval });
+                _plantTypes.Add(new PlantType() { Name = item.Name, Food = item.Food, Material = item.Material, Interval = item.Interval });
                 seedPrices.Add(new Price() { Name = item.Name, Buy = item.SeedPrice + Rand.Next(1, (item.SeedPrice * Config.PriceSpread/100) + Config.PriceMargin), Sell = item.SeedPrice });
 
                 if(item.Food > 0)
@@ -141,7 +141,7 @@ namespace Voyage.Entity
             _seedPrices = seedPrices.ToDictionary(k => k.Name, i => i);
             _foodPrices = foodPrices.ToDictionary(k => k.Name, i => i);
 
-            itemPrices.Add(new Price() { Name = Config.Wood, Buy = Config.WoodPrice + Rand.Next(1, (Config.WoodPrice * Config.PriceSpread / 100) + Config.PriceMargin), Sell = Config.WoodPrice});
+            itemPrices.Add(new Price() { Name = Config.Material, Buy = Config.MaterialPrice + Rand.Next(1, (Config.MaterialPrice * Config.PriceSpread / 100) + Config.PriceMargin), Sell = Config.MaterialPrice});
             _itemPrices = itemPrices.ToDictionary(k => k.Name, i => i);
         }
 

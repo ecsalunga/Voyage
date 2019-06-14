@@ -8,7 +8,7 @@ namespace Voyage.Entity
     {
         public string Name { get; set; }
         public int Food { get; set; }
-        public int Wood { get; set; }
+        public int Material { get; set; }
         public int Interval { get; set; }
         public int SeedPrice { get; set; }
         public int Price { get; set; }

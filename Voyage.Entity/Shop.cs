@@ -32,7 +32,7 @@ namespace Voyage.Entity
 
         private void RefreshItems()
         {
-            this.Items = new List<Item>() { new Item() { Name = Config.Wood, Count = Helper.Rand.Next(1, Config.WoodSellCount + 1) } };
+            this.Items = new List<Item>() { new Item() { Name = Config.Material, Count = Helper.Rand.Next(1, Config.WoodSellCount + 1) } };
 
             this.Foods = new List<Item>();
             int count = Helper.Rand.Next(1, Config.SellFoodCount + 1);

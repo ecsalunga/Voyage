@@ -8,7 +8,7 @@ namespace Voyage.Entity
     {
         public PlantType PlantType { get; set; }
         public int Food { get; set; }
-        public int Wood { get; set; }
+        public int Material { get; set; }
 
         public int Level { get; set; }
   
@@ -22,10 +22,10 @@ namespace Voyage.Entity
 
         public void Update(int level)
         {
-            this.Level = level;
-            this.Interval = (level * this.PlantType.Interval);
-            this.Interval = this.Interval + Helper.Rand.Next(0, this.Interval / 5);
+            int interval = (level * this.PlantType.Interval);
+            this.Interval = interval + Helper.Rand.Next(0, interval / 5);
             this.Current = this.Interval;
+            this.Level = level;
         }
 
         public void Cycle()
@@ -39,8 +39,8 @@ namespace Voyage.Entity
                 if (this.PlantType.Food > 0)
                     this.Food = Helper.AddWithLimit(this.Food, this.Level, this.Level * 100);
 
-                if(this.PlantType.Wood > 0)
-                    this.Wood = Helper.AddWithLimit(this.Wood, this.Level * this.PlantType.Wood, (this.Level * this.PlantType.Wood) * 100);
+                if(this.PlantType.Material > 0)
+                    this.Material = Helper.AddWithLimit(this.Material, this.Level * this.PlantType.Material, (this.Level * this.PlantType.Material) * 100);
             }
         }
     }

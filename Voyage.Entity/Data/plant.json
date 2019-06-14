@@ -2,7 +2,7 @@
   {
     "Name": "Narra",
     "Food": 0,
-    "Wood": 5,
+    "Material": 5,
     "Interval": 28,
     "SeedPrice": 15,
     "Price": 0
@@ -10,7 +10,7 @@
   {
     "Name": "Acacia",
     "Food": 0,
-    "Wood": 4,
+    "Material": 4,
     "Interval": 25,
     "SeedPrice": 10,
     "Price": 0
@@ -18,7 +18,7 @@
   {
     "Name": "Mahogany",
     "Food": 0,
-    "Wood": 3,
+    "Material": 3,
     "Interval": 18,
     "SeedPrice": 20,
     "Price": 0
@@ -26,7 +26,7 @@
   {
     "Name": "Banana",
     "Food": 5,
-    "Wood": 0,
+    "Material": 0,
     "Interval": 14,
     "SeedPrice": 30,
     "Price": 5
@@ -34,7 +34,7 @@
   {
     "Name": "Pineapple",
     "Food": 4,
-    "Wood": 0,
+    "Material": 0,
     "Interval": 12,
     "SeedPrice": 18,
     "Price": 5
@@ -42,7 +42,7 @@
   {
     "Name": "Grapes",
     "Food": 3,
-    "Wood": 0,
+    "Material": 0,
     "Interval": 10,
     "SeedPrice": 12,
     "Price": 4
@@ -50,7 +50,7 @@
   {
     "Name": "Strawberry",
     "Food": 2,
-    "Wood": 0,
+    "Material": 0,
     "Interval": 8,
     "SeedPrice": 25,
     "Price": 2
@@ -58,7 +58,7 @@
   {
     "Name": "Apple",
     "Food": 3,
-    "Wood": 4,
+    "Material": 4,
     "Interval": 42,
     "SeedPrice": 22,
     "Price": 4
@@ -66,7 +66,7 @@
   {
     "Name": "Mango",
     "Food": 3,
-    "Wood": 5,
+    "Material": 5,
     "Interval": 35,
     "SeedPrice": 45,
     "Price": 4
@@ -74,7 +74,7 @@
   {
     "Name": "Guava",
     "Food": 1,
-    "Wood": 2,
+    "Material": 2,
     "Interval": 32,
     "SeedPrice": 25,
     "Price": 2
@@ -82,7 +82,7 @@
   {
     "Name": "Coconut",
     "Food": 3,
-    "Wood": 3,
+    "Material": 3,
     "Interval": 38,
     "SeedPrice": 35,
     "Price": 7

@@ -18,7 +18,7 @@ namespace Voyage.Entity
                 item.Cycle();
             }
 
-            Console.WriteLine("{0}, Food: {1}. Wood: {2}", this.Name, this.Plants.Sum(i => i.Food), this.Plants.Sum(i => i.Wood));
+            Console.WriteLine("{0}, Food: {1}. Material: {2}", this.Name, this.Plants.Sum(i => i.Food), this.Plants.Sum(i => i.Material));
         }
     }
 }
